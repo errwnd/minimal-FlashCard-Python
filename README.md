@@ -1,5 +1,5 @@
 -Uses Gemini API for generating flashcards. Get API from https://aistudio.google.com/api-keys
-
+## add your own key.
 ## how to run??
 - deactivate (current env)
 - source .flashcard/Scripts/activate (move to current env)
