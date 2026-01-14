@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>PDF Flashcards</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: system-ui, sans-serif;
+                max-width: 600px;
+                margin: 40px auto;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+
+            h1 {
+                color: #333;
+            }
+
+            .upload-box {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+            }
+
+            input[type="file"] {
+                margin-bottom: 10px;
+            }
+
+            button {
+                background: #4caf50;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #45a049;
+            }
+
+            button:disabled {
+                background: #ccc;
+            }
+
+            #status {
+                margin-top: 10px;
+                color: #666;
+            }
+
+            .card {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                margin: 10px 0;
+                border-left: 4px solid #4caf50;
+            }
+
+            .card strong {
+                color: #4caf50;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>PDF to Flashcards</h1>
+
+        <div class="upload-box">
+            <input type="file" id="pdf" accept=".pdf" />
+            <button id="btn" onclick="upload()">Generate Flashcards</button>
+            <div id="status"></div>
+        </div>
+
+        <div id="cards"></div>
+
+        <script>
+            async function upload() {
+                const file = document.getElementById("pdf").files[0];
+                const status = document.getElementById("status");
+                const cards = document.getElementById("cards");
+                const btn = document.getElementById("btn");
+
+                if (!file) {
+                    status.textContent = "Please select a PDF file";
+                    return;
+                }
+
+                status.textContent = "Generating flashcards...";
+                btn.disabled = true;
+                cards.innerHTML = "";
+
+                const form = new FormData();
+                form.append("file", file);
+
+                try {
+                    const res = await fetch("/upload", {
+                        method: "POST",
+                        body: form,
+                    });
+                    const data = await res.json();
+
+                    if (data.error) {
+                        status.textContent = "Error: " + data.error;
+                    } else if (data.cards.length === 0) {
+                        status.textContent = "No flashcards generated";
+                    } else {
+                        status.textContent = `Generated ${data.cards.length} flashcards`;
+                        data.cards.forEach((card, i) => {
+                            cards.innerHTML += `<div class="card"><strong>#${i + 1}</strong> ${card}</div>`;
+                        });
+                    }
+                } catch (err) {
+                    status.textContent = "Failed: " + err.message;
+                }
+
+                btn.disabled = false;
+            }
+        </script>
+    </body>
+</html>

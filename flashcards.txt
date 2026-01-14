@@ -1,0 +1,30 @@
+1: What are the two main branches of mathematical logic covered? - Propositional and Predicate Logic
+2: What are normal forms used for in propositional logic? - To standardize the representation of logical formulas
+3: What is the purpose of quantifiers in predicate logic? - To specify the range or scope of variables in a statement
+4: Name two types of relations discussed. - Equivalence Relations and Partially Ordering Relations
+5: What principle is used to count elements in overlapping sets? - Inclusion-Exclusion Principle
+6: What is the Pigeonhole Principle used for? - To prove that at least one item must be in a certain category when distributing items into categories
+7: What is a semigroup? - A set with an associative binary operation
+8: What is the difference between isomorphism and homomorphism? - Isomorphism implies a one-to-one correspondence preserving structure, while homomorphism preserves structure but not necessarily one-to-one
+9: What is a bipartite graph? - A graph whose vertices can be divided into two disjoint sets such that no two vertices within the same set are adjacent
+10: What is graph coloring used for? - Assigning colors to vertices of a graph such that no two adjacent vertices share the same color, often used in resource allocation problems
+11: What are Eulerian paths and circuits related to? - Traversing every edge of a graph exactly once
+12: What is a Hamiltonian path or circuit? - A path or circuit that visits every vertex exactly once
+13: What is a planner graph? - A graph that can be drawn on a plane without any edges crossing
+14: What is the purpose of simplifying Boolean functions? - To reduce the complexity of logical expressions for digital circuit design
+15: What is a key characteristic of linear programming? - Optimization of a linear objective function subject to linear equality or inequality constraints
+16: What is the Simplex Method used for? - Solving linear programming problems
+17: What is PERT-CPM used for? - Project management and scheduling to determine critical paths and manage project timelines
+18: What is a decoder in digital logic? - A circuit that converts a binary input code into a unique output signal
+19: What is a multiplexer? - A circuit that selects one of several input signals and forwards it to a single output line
+20: What is the purpose of complements in data representation? - To simplify arithmetic operations, particularly subtraction, in binary numbers
+21: What is floating-point representation used for? - To represent a wide range of numbers, including very small and very large values, with a sign, exponent, and mantissa
+22: What are register transfer language (RTL) used for? - Describing the flow of data between registers in a digital system
+23: What is an instruction cycle? - The sequence of steps a CPU takes to fetch, decode, and execute an instruction
+24: What is microprogrammed control? - A method of controlling the CPU's operations using a sequence of microinstructions stored in control memory
+25: What is the difference between RISC and CISC architectures? - RISC uses a smaller instruction set with simpler instructions, while CISC uses a larger instruction set with more complex instructions
+26: What is pipelining in CPU design? - Overlapping the execution stages of multiple instructions to improve throughput
+27: What is DMA? - Direct Memory Access, allowing devices to transfer data directly to and from main memory without involving the CPU
+28: What is virtual memory? - A memory management technique that allows programs to use more memory than physically available by using disk space as an extension of RAM
+29: What is cache coherence in multiprocessors? - Ensuring that all processors have a consistent view of data stored in caches
+30: What are the stages in the translation of a programming language? - Lexical analysis, syntax analysis, semantic analysis, intermediate code generation, code optimization, and code generation
