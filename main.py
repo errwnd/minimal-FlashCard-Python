@@ -3,7 +3,7 @@ import tempfile
 
 import PyPDF2
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -22,7 +22,12 @@ def home():
 
 
 @app.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload(file: UploadFile = File(...), api_key: str = Form(None)):
+    # Use provided API key or fall back to environment variable
+    key = api_key or API_KEY
+    if not key:
+        return {"error": "API key is required"}
+
     # Save uploaded PDF to temp file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
         tmp.write(await file.read())
@@ -39,7 +44,7 @@ async def upload(file: UploadFile = File(...)):
         return {"error": "No text found in PDF"}
 
     # Generate flashcards using Gemini
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", api_key=API_KEY)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", api_key=key)
 
     prompt = f"""Create 20 simple flashcards from this text.
 Format each as: Q: question | A: answer

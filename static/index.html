@@ -71,6 +71,27 @@
         <h1>PDF to Flashcards</h1>
 
         <div class="upload-box">
+            <div class="api-key-section">
+                <label for="apiKey">Gemini API Key:</label>
+                <div class="api-key-input-wrapper">
+                    <input
+                        type="password"
+                        id="apiKey"
+                        placeholder="Enter your Gemini API key"
+                    />
+                    <button
+                        type="button"
+                        id="toggleKey"
+                        onclick="toggleApiKeyVisibility()"
+                    >
+                        👁️
+                    </button>
+                </div>
+                <small>Your API key is stored locally in your browser</small>
+            </div>
+            <hr
+                style="margin: 15px 0; border: none; border-top: 1px solid #ddd"
+            />
             <input type="file" id="pdf" accept=".pdf" />
             <button id="btn" onclick="upload()">Generate Flashcards</button>
             <div id="status"></div>
@@ -78,12 +99,97 @@
 
         <div id="cards"></div>
 
+        <style>
+            .api-key-section {
+                margin-bottom: 15px;
+            }
+
+            .api-key-section label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .api-key-input-wrapper {
+                display: flex;
+                gap: 8px;
+            }
+
+            .api-key-section input[type="password"],
+            .api-key-section input[type="text"] {
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            .api-key-section input:focus {
+                outline: none;
+                border-color: #4caf50;
+                box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            }
+
+            #toggleKey {
+                padding: 10px;
+                background: #f0f0f0;
+                border: 1px solid #ddd;
+                cursor: pointer;
+            }
+
+            #toggleKey:hover {
+                background: #e0e0e0;
+            }
+
+            .api-key-section small {
+                display: block;
+                margin-top: 5px;
+                color: #888;
+                font-size: 12px;
+            }
+        </style>
+
         <script>
+            // Load API key from localStorage on page load
+            document.addEventListener("DOMContentLoaded", () => {
+                const savedKey = localStorage.getItem("gemini_api_key");
+                if (savedKey) {
+                    document.getElementById("apiKey").value = savedKey;
+                }
+            });
+
+            // Save API key to localStorage when changed
+            document
+                .getElementById("apiKey")
+                ?.addEventListener("input", (e) => {
+                    localStorage.setItem("gemini_api_key", e.target.value);
+                });
+
+            function toggleApiKeyVisibility() {
+                const input = document.getElementById("apiKey");
+                const btn = document.getElementById("toggleKey");
+                if (input.type === "password") {
+                    input.type = "text";
+                    btn.textContent = "🙈";
+                } else {
+                    input.type = "password";
+                    btn.textContent = "👁️";
+                }
+            }
+
             async function upload() {
                 const file = document.getElementById("pdf").files[0];
+                const apiKey = document.getElementById("apiKey").value.trim();
                 const status = document.getElementById("status");
                 const cards = document.getElementById("cards");
                 const btn = document.getElementById("btn");
+
+                if (!apiKey) {
+                    status.textContent = "Please enter your Gemini API key";
+                    document.getElementById("apiKey").focus();
+                    return;
+                }
 
                 if (!file) {
                     status.textContent = "Please select a PDF file";
@@ -96,6 +202,7 @@
 
                 const form = new FormData();
                 form.append("file", file);
+                form.append("api_key", apiKey);
 
                 try {
                     const res = await fetch("/upload", {
